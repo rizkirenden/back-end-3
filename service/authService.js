@@ -13,7 +13,6 @@ async function loginUser(email, password) {
 
   const passwordMatch = await bcrypt.compare(password, user.password);
   if (!passwordMatch) {
-    // Password salah
     return null;
   }
 
