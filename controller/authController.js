@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { loginUser } = require("../services/authService");
+const { loginUser } = require("../service/authService");
 
 const JWT_SECRET = process.env.JWT_SECRET || "secretkey";
 
@@ -23,7 +23,7 @@ async function loginController(req, res) {
       username: user.username,
     };
 
-    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign(payload, JWT_SECRET, { expiresIn: "1D" });
 
     return res.json({ message: "Login berhasil", token });
   } catch (error) {
