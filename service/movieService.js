@@ -1,5 +1,9 @@
 const MovieModel = require("../model/MovieModel");
 
+async function getMovies() {
+  return await MovieModel.getAllMovies();
+}
+
 async function getMovieById(id) {
   return await MovieModel.getMovieById(id);
 }
@@ -17,6 +21,7 @@ async function removeMovie(movie_id) {
 }
 
 module.exports = {
+  getMovies,
   getMovieById,
   createMovie,
   updateMovie,

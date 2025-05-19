@@ -1,9 +1,20 @@
 const {
+  getMovies,
   getMovieById,
   createMovie,
   updateMovie,
   removeMovie,
 } = require("../service/movieService");
+
+async function getMoviesController(req, res) {
+  try {
+    const movies = await getMovies();
+    return res.json(movies);
+  } catch (err) {
+    console.error("Error getMoviesController:", err); // tambahkan ini
+    return res.status(500).json({ error: "Gagal mengambil data movie" });
+  }
+}
 
 async function getMovieController(req, res) {
   const { id } = req.params;
@@ -53,6 +64,7 @@ async function deleteMovieController(req, res) {
 }
 
 module.exports = {
+  getMoviesController,
   getMovieController,
   createMovieController,
   updateMovieController,

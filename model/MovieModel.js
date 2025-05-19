@@ -1,6 +1,12 @@
 const pool = require("../config/database");
 
+async function getAllMovies() {
+  const [rows] = await pool.query("SELECT * FROM movie");
+  return rows;
+}
+
 const MovieModel = {
+  getAllMovies,
   async getMovieById(id) {
     const [rows] = await pool.query("SELECT * FROM movie WHERE movie_id = ?", [
       id,
