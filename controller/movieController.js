@@ -11,7 +11,6 @@ async function getMoviesController(req, res) {
     const movies = await getMovies();
     return res.json(movies);
   } catch (err) {
-    console.error("Error getMoviesController:", err); // tambahkan ini
     return res.status(500).json({ error: "Gagal mengambil data movie" });
   }
 }
