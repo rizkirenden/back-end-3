@@ -1,7 +1,32 @@
 const pool = require("../config/database");
 
-async function getAllMovies() {
-  const [rows] = await pool.query("SELECT * FROM movie");
+async function getAllMovies({
+  search,
+  genre,
+  sortBy = "title",
+  sortOrder = "asc",
+} = {}) {
+  let query = "SELECT * FROM movies WHERE 1=1";
+
+  const params = [];
+
+  if (search) {
+    query += " AND title LIKE ?";
+    params.push(`%${search}%`);
+  }
+
+  if (genre) {
+    query += " AND genre = ?";
+    params.push(genre);
+  }
+
+  if (["title", "release_year", "rating"].includes(sortBy)) {
+    query += ` ORDER BY ${sortBy} ${
+      sortOrder.toUpperCase() === "DESC" ? "DESC" : "ASC"
+    }`;
+  }
+
+  const [rows] = await db.execute(query, params);
   return rows;
 }
 

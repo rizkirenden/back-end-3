@@ -8,7 +8,9 @@ const {
 
 async function getMoviesController(req, res) {
   try {
-    const movies = await getMovies();
+    const { search, genre, sortBy, sortOrder } = req.query;
+    const filters = { search, genre, sortBy, sortOrder };
+    const movies = await getMovies(filters);
     return res.json(movies);
   } catch (err) {
     return res.status(500).json({ error: "Gagal mengambil data movie" });
