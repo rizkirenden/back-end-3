@@ -13,6 +13,7 @@ async function getMoviesController(req, res) {
     const movies = await getMovies(filters);
     return res.json(movies);
   } catch (err) {
+    console.error("Error getting movies:", err);
     return res.status(500).json({ error: "Gagal mengambil data movie" });
   }
 }
@@ -28,7 +29,30 @@ async function getMovieController(req, res) {
 
 async function createMovieController(req, res) {
   try {
-    const movie = req.body;
+    const {
+      movie_id,
+      genre_id,
+      nama_movie,
+      deskripsi_movie,
+      duration_movie,
+      realese_movie,
+    } = req.body;
+
+    const files = req.files;
+
+    const movie = {
+      movie_id,
+      genre_id,
+      nama_movie,
+      deskripsi_movie,
+      duration_movie,
+      realese_movie,
+      sampul_depan: files.sampul_depan?.[0]?.filename || null,
+      sampul_belakang: files.sampul_belakang?.[0]?.filename || null,
+      video_movie: files.video_movie?.[0]?.filename || null,
+      video_trailler: files.video_trailler?.[0]?.filename || null,
+    };
+
     const id = await createMovie(movie);
     return res.status(201).json({ message: "Movie berhasil ditambahkan", id });
   } catch (err) {

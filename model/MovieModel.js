@@ -3,15 +3,14 @@ const pool = require("../config/database");
 async function getAllMovies({
   search,
   genre,
-  sortBy = "title",
+  sortBy = "nama_movie",
   sortOrder = "asc",
 } = {}) {
-  let query = "SELECT * FROM movies WHERE 1=1";
-
+  let query = "SELECT * FROM movie WHERE 1=1";
   const params = [];
 
   if (search) {
-    query += " AND title LIKE ?";
+    query += " AND nama_movie LIKE ?";
     params.push(`%${search}%`);
   }
 
@@ -20,13 +19,14 @@ async function getAllMovies({
     params.push(genre);
   }
 
-  if (["title", "release_year", "rating"].includes(sortBy)) {
+  if (["nama_movie", "realese_movie"].includes(sortBy)) {
     query += ` ORDER BY ${sortBy} ${
       sortOrder.toUpperCase() === "DESC" ? "DESC" : "ASC"
     }`;
   }
 
-  const [rows] = await db.execute(query, params);
+  // Ganti db.execute dengan pool.query
+  const [rows] = await pool.query(query, params);
   return rows;
 }
 
